@@ -76,19 +76,42 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Add.aspx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Images\1080ti.png" />
+    <Content Include="Images\amd.png" />
+    <Content Include="Images\aorusz270.png" />
+    <Content Include="Images\asus.png" />
+    <Content Include="Images\gigabytez370.png" />
+    <Content Include="Images\inteli7.png" />
+    <Content Include="Images\inteli9xe.png" />
+    <Content Include="Images\titanv.png" />
+    <Content Include="Images\titanxp.png" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add.aspx.cs">
+      <DependentUpon>Add.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Add.aspx.designer.cs">
+      <DependentUpon>Add.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Business\Basket.cs" />
     <Compile Include="Business\Client.cs" />
     <Compile Include="Business\Controller.cs" />
     <Compile Include="Business\Product.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Persistence\PersistenceCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -73,6 +73,7 @@ namespace Webshop.Persistence
             string querry = "select stock from tblproduct where id=" + productid;
             MySqlCommand sqlcom = new MySqlCommand(querry, sqlcon);
             MySqlDataReader reader = sqlcom.ExecuteReader();
+            reader.Read();
             int stock = Convert.ToInt32(reader["stock"]);
             sqlcon.Close();
             return stock == 0;
