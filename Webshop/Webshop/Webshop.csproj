@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Add.aspx" />
+    <Content Include="Basket.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Images\1080ti.png" />
     <Content Include="Images\amd.png" />
@@ -97,10 +98,18 @@
     <Compile Include="Add.aspx.designer.cs">
       <DependentUpon>Add.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Basket.aspx.cs">
+      <DependentUpon>Basket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basket.aspx.designer.cs">
+      <DependentUpon>Basket.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Business\Basket.cs" />
     <Compile Include="Business\Client.cs" />
     <Compile Include="Business\Controller.cs" />
     <Compile Include="Business\Product.cs" />
+    <Compile Include="Business\ProductPerOrder.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

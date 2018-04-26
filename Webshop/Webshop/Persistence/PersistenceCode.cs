@@ -102,8 +102,6 @@ namespace Webshop.Persistence
                 client.ID = Convert.ToInt32(reader["ID"]);
                 client.Name = Convert.ToString(reader["name"]);
                 client.Prename = Convert.ToString(reader["prename"]);
-                client.Username = Convert.ToString(reader["username"]);
-                client.Password = Convert.ToString(reader["password"]);
                 client.VAT = Convert.ToInt32(reader["VAT"]);
                 client.Mail = Convert.ToString(reader["mail"]);
                 client.Adress = Convert.ToString(reader["adress"]);
@@ -128,6 +126,7 @@ namespace Webshop.Persistence
         //
         // END OF CLIENT fUNCTIONALITY AND INFORMATION
         //
+
 
         //
         // BASKET FUNCTIONALITY
@@ -170,7 +169,6 @@ namespace Webshop.Persistence
         //
 
 
-
         //
         // MAKING THE ORDER
         //
@@ -187,38 +185,67 @@ namespace Webshop.Persistence
             sqlcon.Close();
         }
 
-        //Total price of order !!!
-        public int GetTotalPrice(int clientid)
-        {
-            return 1;
-        }
-
-        //Get current product price
-        public double GetProductPrice(int productid)
+        //Total price of order
+        public double GetTotalPrice(int clientid)
         {
             MySqlConnection sqlcon = new MySqlConnection(conn);
             sqlcon.Open();
-            string querry = "select price from tblproduct where id=" + productid;
+            string querry = "select sum(price) as total from tblbasket where clientid=" + clientid + " order by productid";
             MySqlCommand sqlcom = new MySqlCommand(querry, sqlcon);
             MySqlDataReader reader = sqlcom.ExecuteReader();
-            double price = Convert.ToInt32(reader["price"]);
+            reader.Read();
+            double total = Convert.ToDouble(reader["total"]);
             sqlcon.Close();
-            return price;
+            return total;
         }
 
+        //Get all the needed information to fill out ProductPerOrder
+        public ProductPerOrder GetOrderInfo(int clientid)
+        {
+            ProductPerOrder productperorder = new ProductPerOrder();
+            MySqlConnection sqlcon = new MySqlConnection(conn);
+            sqlcon.Open();
+            string querry = "select orderid, productid, amount, price from tblbasket inner join tblproduct on productid = tblproduct.id inner join tblorder on orderid = tblorder.id where value in (select id from tblorder where clientid = " + clientid + "order by id desc limit 1) limit 1";
+            MySqlCommand sqlcom = new MySqlCommand(querry, sqlcon);
+            MySqlDataReader reader = sqlcom.ExecuteReader();
+            while(reader.Read())
+            {
+                productperorder.Orderid = Convert.ToInt32(reader["orderid"]);
+                productperorder.Productid = Convert.ToInt32(reader["productid"]);
+                productperorder.Price = Convert.ToDouble(reader["price"]);
+                productperorder.Amount = Convert.ToInt32(reader["amount"]);
+            }
+            sqlcon.Close();
+            return productperorder;
+        }
+
+        //public int GetLatestOrderid(int clientid)
+        //{
+        //    MySqlConnection sqlcon = new MySqlConnection(conn);
+        //    sqlcon.Open();
+        //    string querry = "select id from tblorder where clientid = " + clientid + "order by id desc limit 1";
+        //    MySqlCommand sqlcom = new MySqlCommand(querry, sqlcon);
+        //    MySqlDataReader reader = sqlcom.ExecuteReader();
+        //    reader.Read();
+        //    int id = Convert.ToInt32(reader["id"]);
+        //    sqlcon.Close();
+        //    return id;
+        //}
+
         //Products per order !!!
-        public void SaveOrderedProducts()
+        public void SaveOrderedProducts(int clientid)
         {
             MySqlConnection sqlcon = new MySqlConnection(conn);
             sqlcon.Open();
-            string querry = "insert into tblproductperorder (orderid, productid, price, amount)";
+            string price = GetOrderInfo(clientid).Price.ToString().Replace(",", ".");
+            string querry = "insert into tblproductperorder (orderid, productid, price, amount) values ( ";
             MySqlCommand sqlcom = new MySqlCommand(querry, sqlcon);
             sqlcom.ExecuteNonQuery();
             sqlcon.Close();
         }
 
         //Get amount of different items in basket
-        public int BasketVolume(int clientid)
+        public int GetBasketVolume(int clientid)
         {
             MySqlConnection sqlcon = new MySqlConnection(conn);
             sqlcon.Open();

@@ -10,8 +10,6 @@ namespace Webshop.Business
         private int id;
         private string name;
         private string prename;
-        private string username;
-        private string password;
         private int vat;
         private string adress;
         private string mail;
@@ -32,18 +30,6 @@ namespace Webshop.Business
         {
             set { prename = value; }
             get { return prename; }
-        }
-
-        public string Username
-        {
-            set { username = value; }
-            get { return username; }
-        }
-
-        public string Password
-        {
-            set { password = value; }
-            get { return password; }
         }
 
         public int VAT
